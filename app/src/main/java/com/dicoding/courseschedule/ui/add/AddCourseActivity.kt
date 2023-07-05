@@ -37,30 +37,7 @@ class AddCourseActivity : AppCompatActivity(), TimePickerFragment.DialogTimeList
             if (it.getContentIfNotHandled() == true) {
                 onBackPressed()
             } else {
-                val edCourseName = findViewById<TextInputEditText>(R.id.add_ed_course_name)
-                val spinnerDay = findViewById<Spinner>(R.id.spinner_day)
-                val edCourseLecturer = findViewById<TextInputEditText>(R.id.add_ed_lecture)
-                val edNote = findViewById<TextInputEditText>(R.id.add_ed_note)
-
-                var courseName = edCourseName.text.toString()
-                var courseLecturer = edCourseLecturer.text.toString()
-                var note = edNote.text.toString()
-
-                if (courseName.isEmpty() && courseLecturer.isEmpty() && note.isEmpty() && spinnerDay.selectedItemPosition == Spinner.INVALID_POSITION && startTime == "" && endTime == ""){
-                    Toast.makeText(this, "All fields must be filled", Toast.LENGTH_SHORT).show()
-                }else if(courseName.isEmpty()){
-                    edCourseName.setError("Course name can't be empty")
-                }else if(courseLecturer.isEmpty()){
-                    edCourseLecturer.setError("Course name can't be empty")
-                }else if(note.isEmpty()){
-                    edNote.setError("Course name can't be empty")
-                }else if(spinnerDay.selectedItemPosition == Spinner.INVALID_POSITION){
-                    Toast.makeText(this, "Please select the Day", Toast.LENGTH_SHORT).show()
-                }else if(startTime == ""){
-                    Toast.makeText(this, "Please select the Start Time", Toast.LENGTH_SHORT).show()
-                }else if(endTime == ""){
-                    Toast.makeText(this, "Please select the End Time", Toast.LENGTH_SHORT).show()
-                }
+                validateionForm()
             }
         })
     }
@@ -111,6 +88,33 @@ class AddCourseActivity : AppCompatActivity(), TimePickerFragment.DialogTimeList
                 addCourseViewModel.insertCourse(courseName, day, startTime, endTime, courseLecturer, note)
                 true
             } else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    fun validateionForm(){
+        val edCourseName = findViewById<TextInputEditText>(R.id.add_ed_course_name)
+        val spinnerDay = findViewById<Spinner>(R.id.spinner_day)
+        val edCourseLecturer = findViewById<TextInputEditText>(R.id.add_ed_lecture)
+        val edNote = findViewById<TextInputEditText>(R.id.add_ed_note)
+
+        var courseName = edCourseName.text.toString()
+        var courseLecturer = edCourseLecturer.text.toString()
+        var note = edNote.text.toString()
+
+        if (courseName.isEmpty() && courseLecturer.isEmpty() && note.isEmpty() && spinnerDay.selectedItemPosition == Spinner.INVALID_POSITION && startTime == "" && endTime == ""){
+            Toast.makeText(this, "All fields must be filled", Toast.LENGTH_SHORT).show()
+        }else if(courseName.isEmpty()){
+            edCourseName.setError("Course name can't be empty")
+        }else if(courseLecturer.isEmpty()){
+            edCourseLecturer.setError("Course name can't be empty")
+        }else if(note.isEmpty()){
+            edNote.setError("Course name can't be empty")
+        }else if(spinnerDay.selectedItemPosition == Spinner.INVALID_POSITION){
+            Toast.makeText(this, "Please select the Day", Toast.LENGTH_SHORT).show()
+        }else if(startTime == ""){
+            Toast.makeText(this, "Please select the Start Time", Toast.LENGTH_SHORT).show()
+        }else if(endTime == ""){
+            Toast.makeText(this, "Please select the End Time", Toast.LENGTH_SHORT).show()
         }
     }
 
