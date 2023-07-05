@@ -1,6 +1,7 @@
 package com.dicoding.courseschedule.paging
 
 import android.view.View
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.courseschedule.R
 import com.dicoding.courseschedule.data.Course
@@ -18,8 +19,12 @@ class CourseViewHolder(view: View): RecyclerView.ViewHolder(view) {
         course.apply {
             val dayName = getByNumber(day)
             val timeFormat = String.format(timeString, dayName, startTime, endTime)
-
-
+            val tvCourse : TextView = itemView.findViewById(R.id.tv_course)
+            val tvTime : TextView = itemView.findViewById(R.id.tv_time)
+            val tvLecture : TextView = itemView.findViewById(R.id.tv_lecturer)
+            tvCourse.text = courseName
+            tvTime.text = timeFormat
+            tvLecture.text = lecturer
         }
 
         itemView.setOnClickListener {
