@@ -65,10 +65,9 @@ class AddCourseActivity : AppCompatActivity(), TimePickerFragment.DialogTimeList
         })
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        startActivity(Intent(this, HomeActivity::class.java))
-        finish()
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     override fun onDialogTimeSet(tag: String?, hour: Int, minute: Int) {
