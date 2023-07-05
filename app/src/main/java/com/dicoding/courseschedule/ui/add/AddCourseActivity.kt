@@ -1,6 +1,5 @@
 package com.dicoding.courseschedule.ui.add
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -11,7 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.courseschedule.R
-import com.dicoding.courseschedule.ui.home.HomeActivity
 import com.dicoding.courseschedule.util.TimePickerFragment
 import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat

@@ -23,29 +23,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
         //TODO 11 : Schedule and cancel notification in DailyReminder based on SwitchPreference
         val notificationPreference = findPreference<SwitchPreference>(getString(R.string.pref_key_notify))
-//        val dailyReminder = DailyReminder()
-//        notificationPreference?.setOnPreferenceChangeListener {_, newValue ->
-//            val value = newValue as Boolean
-//            if (value) {
-//                dailyReminder.setDailyReminder(requireContext())
-//            } else {
-//                dailyReminder.cancelAlarm(requireContext())
-//            }
-//            true
-//        }
-        notificationPreference?.setOnPreferenceChangeListener { _, newValue ->
-            newValue?.let {
-                val value = it as Boolean
-                val dailyReminder = DailyReminder()
-
-                when (value) {
-                    true -> {
-                        context?.let { c -> dailyReminder.setDailyReminder(c) }
-                    }
-                    false -> {
-                        context?.let { c -> dailyReminder.cancelAlarm(c) }
-                    }
-                }
+        val dailyReminder = DailyReminder()
+        notificationPreference?.setOnPreferenceChangeListener {_, newValue ->
+            val value = newValue as Boolean
+            if (value) {
+                dailyReminder.setDailyReminder(requireContext())
+            } else {
+                dailyReminder.cancelAlarm(requireContext())
             }
             true
         }

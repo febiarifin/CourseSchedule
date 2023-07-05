@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.dicoding.courseschedule.R
 import com.dicoding.courseschedule.data.Course
@@ -27,7 +26,7 @@ class DailyReminder : BroadcastReceiver() {
         executeThread {
             val repository = DataRepository.getInstance(context)
             val courses = repository?.getTodaySchedule()
-            Log.d("TEST", courses.toString())
+
             courses?.let {
                 if (it.isNotEmpty()) showNotification(context, it)
             }
