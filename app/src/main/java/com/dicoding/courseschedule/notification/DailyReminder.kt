@@ -35,7 +35,7 @@ class DailyReminder : BroadcastReceiver() {
 
     //TODO 12 : Implement daily reminder for every 06.00 a.m using AlarmManager
     fun setDailyReminder(context: Context) {
-        val setManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val dailyReminderIntent = Intent(context, DailyReminder::class.java)
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
@@ -45,7 +45,7 @@ class DailyReminder : BroadcastReceiver() {
         }
 
         val pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, dailyReminderIntent, PendingIntent.FLAG_IMMUTABLE)
-        setManager.setInexactRepeating(
+        alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
             AlarmManager.INTERVAL_DAY,
@@ -65,10 +65,10 @@ class DailyReminder : BroadcastReceiver() {
         //TODO 13 : Show today schedules in inbox style notification & open HomeActivity when notification tapped
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationStyle = NotificationCompat.InboxStyle()
-        val timeString = context.resources.getString(R.string.notification_message_format)
+        val notificationText = context.resources.getString(R.string.notification_message_format)
         content.forEach {
-            val courseData = String.format(timeString, it.startTime, it.endTime, it.courseName)
-            notificationStyle.addLine(courseData)
+            val courses = String.format(notificationText, it.startTime, it.endTime, it.courseName)
+            notificationStyle.addLine(courses)
         }
         val notificationBuilder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setContentTitle(context.getString(R.string.today_schedule))
@@ -78,7 +78,6 @@ class DailyReminder : BroadcastReceiver() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT)
-
             notificationBuilder.setChannelId(NOTIFICATION_CHANNEL_ID)
             notificationManager.createNotificationChannel(channel)
         }
