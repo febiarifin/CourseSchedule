@@ -75,7 +75,6 @@ class DailyReminder : BroadcastReceiver() {
             .setSmallIcon(R.drawable.ic_notifications)
             .setStyle(notificationStyle)
             .setAutoCancel(true)
-            .setContentText(timeString)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT)
