@@ -44,7 +44,7 @@ class DailyReminder : BroadcastReceiver() {
             set(Calendar.SECOND, 0)
         }
 
-        val pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, dailyReminderIntent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, dailyReminderIntent, PendingIntent.FLAG_IMMUTABLE)
         setManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
@@ -56,17 +56,14 @@ class DailyReminder : BroadcastReceiver() {
     fun cancelAlarm(context: Context) {
         val cancelManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val dailyReminderIntent = Intent(context, DailyReminder::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, dailyReminderIntent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, dailyReminderIntent, PendingIntent.FLAG_IMMUTABLE)
         pendingIntent.cancel()
         cancelManager.cancel(pendingIntent)
     }
 
     private fun showNotification(context: Context, content: List<Course>) {
         //TODO 13 : Show today schedules in inbox style notification & open HomeActivity when notification tapped
-        val homeIntent = Intent(context, HomeActivity::class.java)
-        homeIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        val pendingIntent = PendingIntent.getActivity(context, NOTIFICATION_ID, homeIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val notificationManagerCompat = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationStyle = NotificationCompat.InboxStyle()
         val timeString = context.resources.getString(R.string.notification_message_format)
         content.forEach {
@@ -76,19 +73,17 @@ class DailyReminder : BroadcastReceiver() {
         val notificationBuilder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setContentTitle(context.getString(R.string.today_schedule))
             .setSmallIcon(R.drawable.ic_notifications)
-            .setContentIntent(pendingIntent)
             .setStyle(notificationStyle)
             .setAutoCancel(true)
-//            .setContentText(context.resources.getString(R.string.notification_message_format))
             .setContentText(timeString)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT)
 
             notificationBuilder.setChannelId(NOTIFICATION_CHANNEL_ID)
-            notificationManagerCompat.createNotificationChannel(channel)
+            notificationManager.createNotificationChannel(channel)
         }
         val notification = notificationBuilder.build()
-        notificationManagerCompat.notify(ID_REPEATING, notification)
+        notificationManager.notify(ID_REPEATING, notification)
     }
 }

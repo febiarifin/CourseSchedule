@@ -27,7 +27,8 @@ class HomeActivityTest{
         onView(withId(R.id.action_add)).check(matches(isDisplayed())).perform(click())
         InstrumentationRegistry.getInstrumentation().runOnMainSync {
             run {
-                addCourseActivity = ActivityLifecycleMonitorRegistry.getInstance()
+                addCourseActivity = ActivityLifecycleMonitorRegistry
+                    .getInstance()
                     .getActivitiesInStage(Stage.RESUMED).elementAtOrNull(0)
                 TestCase.assertTrue(addCourseActivity?.javaClass == AddCourseActivity::class.java)
             }
